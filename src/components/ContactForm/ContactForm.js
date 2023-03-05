@@ -1,8 +1,7 @@
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
-import { nanoid } from 'nanoid';
-import { Button } from 'components/Buttons/Buttons';
-import { addContact } from 'redux/contactSlice';
+import { Button } from '../../shared/Buttons/Buttons';
+import { fetchAddContact } from 'redux/contact/contactOperation';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import {
@@ -28,8 +27,21 @@ const ValidationSchema = Yup.object().shape({
 });
 
 export const ContactForm = () => {
-  const dispatch = useDispatch();
-  const handleContactAdd = contact => dispatch(addContact(contact));
+
+const contacts = useSelector(store => store.contacts.items);
+const dispatch = useDispatch();
+
+  const handleAddContact = data => {
+    const name = data.name;
+    if (contacts.find(contact => contact.name === name)) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+
+    const phone = data.number;
+    const action = fetchAddContact({ name, phone });
+    dispatch(action);
+  };
 
   return (
     <Formik
@@ -48,12 +60,11 @@ export const ContactForm = () => {
         };
 
         const contact = {
-          id: nanoid(),
           name: name(firstName, lastName),
           number: tel.trim(),
         };
 
-        handleContactAdd(contact);
+        handleAddContact(contact);
         toast.info('Contact was add');
         resetForm();
       }}

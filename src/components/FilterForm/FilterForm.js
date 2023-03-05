@@ -1,21 +1,24 @@
-import { useDispatch } from 'react-redux';
-import { setFilterValue } from 'redux/filtersSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setFilter } from 'redux/filter/filterSlice';
+import { selectorFilters } from 'redux/filter/filterSelector';
+
 import { FilterContainer, FilterInput } from './FilterForm.styled';
 
-export function FilterForm() {
+export const FilterForm = () => {
+  const filter = useSelector(selectorFilters);
   const dispatch = useDispatch();
 
   const handleFilter = e => {
-    const value = e.currentTarget.value.toLowerCase().trim();
-    dispatch(setFilterValue(value));
+    dispatch(setFilter(e.currentTarget.value));
   };
+
 
   return (
     <FilterContainer>
       <FilterInput
         type="text"
-        id="filter"
-        name="filter"
+        value={filter}
         placeholder="Search contact"
         onChange={handleFilter}
       />

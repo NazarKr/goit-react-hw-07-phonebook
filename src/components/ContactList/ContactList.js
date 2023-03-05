@@ -1,8 +1,9 @@
-import { Button } from 'components/Buttons/Buttons';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AiOutlineDelete } from 'react-icons/ai';
+import ButtonIcon from 'shared/Buttons/ButtonIcon';
 import { toast } from 'react-toastify';
-import { getContacts, getFilters } from 'redux/selectors';
-import { deleteContact } from 'redux/contactSlice';
+import { getFilters } from 'redux/contact/contactSelectors';
 import {
   ContactItemLi,
   ContactListUl,
@@ -10,40 +11,58 @@ import {
   ContactNumber,
 } from './ContactList.styled';
 
+import {
+  fetchAllContacts,
+  fetchDeleteContact,
+} from 'redux/contact/contactOperation';
+
+// import { selectorFilters } from 'redux/filter/filterSelector';
+
+
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
-  const filters = useSelector(getFilters);
+  // const filter = useSelector(selectorFilters);
 
-  const handleContactRemove = id => {
-    dispatch(deleteContact(id))
-    toast.info('Contact was deleted')
+useEffect(() => {
+  dispatch(fetchAllContacts());
+}, [dispatch]);
+
+const list = useSelector(getFilters);
+
+  const handleContactDelete = id => {
+    dispatch(fetchDeleteContact(id));
+    toast.info('Contact was deleted');
   };
 
-  const visibleСontacts = (value, contacts) => {
-    if (value) {
-      const visibleСontacts = contacts.filter(({ name }) =>
-        name.toLowerCase().includes(value)
-      );
-      if (visibleСontacts.length === 0) {
-    toast.success('No contact whit this name');
-      } else {
-        return visibleСontacts;
-      }
-    }
-    return contacts;
-  };
+  // const visibleСontacts = (value, contacts) => {
+  //   if (value) {
+  //     const visibleСontacts = contacts.filter(({ name }) =>
+  //       name.toLowerCase().includes(value)
+  //     );
+  //     if (visibleСontacts.length === 0) {
+  //       toast.success('No contact whit this name');
+  //     } else {
+  //       return visibleСontacts;
+  //     }
+  //   }
+  //   return contacts;
+  // };
 
   return (
     <ContactListUl>
-      {visibleСontacts(filters.filterValue, contacts).map(contact => {
-        const { id, name, number } = contact;
+      {list.map(({ id, name, number }) => { 
+        // const { id, name, number } = contact;
 
         return (
           <ContactItemLi key={id}>
             <ContactName>{name}</ContactName>
-            <ContactNumber>{number}</ContactNumber>
-            <Button onClick={() => handleContactRemove(id)}>Delete</Button>
+            <ContactNumber>{number}</ContactNumber> 
+            <ButtonIcon
+              icon={AiOutlineDelete}
+              iconSize={20}
+              onClick={() => handleContactDelete(id)}
+            >
+            </ButtonIcon>
           </ContactItemLi>
         );
       })}

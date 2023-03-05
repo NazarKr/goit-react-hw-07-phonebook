@@ -18,3 +18,8 @@ export const deleteContact = async id => {
   const { data } = await contactInstance.delete(`/${id}`);
   return data;
 };
+
+export const editContact = async id => {
+  const { data } = await contactInstance.put(`/${id}`);
+  return data;
+};

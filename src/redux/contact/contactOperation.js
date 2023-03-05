@@ -36,3 +36,15 @@ export const fetchDeleteContact = createAsyncThunk(
     }
   }
 );
+
+export const fetchEditContact = createAsyncThunk(
+  'contacts/editContact',
+  async (id, { rejectWithValue }) => {
+    try {
+      await contactsApi.editContact(id);
+      return id;
+    } catch ({ response }) {
+      return rejectWithValue(response.data.message);
+    }
+  }
+);
