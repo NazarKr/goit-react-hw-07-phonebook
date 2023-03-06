@@ -2,7 +2,10 @@ import styled from 'styled-components';
 import theme from 'theme';
 
 export const FilterContainer = styled.div`
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 240px;
 `;
 
 export const FilterLabel = styled.label`

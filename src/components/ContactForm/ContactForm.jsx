@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, ErrorMessage } from 'formik';
 import { Button } from '../../shared/Buttons/Buttons';
-import { fetchAddContact } from 'redux/contact/contactOperation';
+import { fetchAddContact } from 'redux/contacts/contactsOperations';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import {
