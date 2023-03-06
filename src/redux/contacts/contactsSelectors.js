@@ -20,7 +20,6 @@ export const selectFilteredContacts = ({ contacts, filter }) => {
 export const selectContacts = state => state.contacts.items;
 
 export const selectContactsCount = createSelector([selectContacts], contacts => {
-  console.log('Calculating task count');
 
   return contacts.reduce(
     (count, contacts) => {
