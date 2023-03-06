@@ -16,6 +16,7 @@ import {
   fetchAllContacts,
   fetchDeleteContact,
 } from 'redux/contacts/contactsOperations';
+import { CounterContacts } from 'components/CounterContacts/CounterContacts';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
@@ -31,9 +32,11 @@ export const ContactList = () => {
     toast.info('Contact was deleted');
   };
 
-
   return (
-    <ContactListUl>
+    <>
+      <ContactListUl>
+        <CounterContacts />
+        
       {list.map(({ id, name, phone }) => { 
 
         return (
@@ -49,6 +52,8 @@ export const ContactList = () => {
           </ContactItemLi>
         );
       })}
-    </ContactListUl>
+      </ContactListUl>
+    </>
+
   );
 };

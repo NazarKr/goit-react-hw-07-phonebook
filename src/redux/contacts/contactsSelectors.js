@@ -1,3 +1,6 @@
+import { createSelector } from '@reduxjs/toolkit';
+
+
 export const selectAllContacts = ({ contacts }) => contacts.items;
 
 export const selectFilteredContacts = ({ contacts, filter }) => {
@@ -12,3 +15,20 @@ export const selectFilteredContacts = ({ contacts, filter }) => {
 
   return result;
 };
+
+
+export const selectContacts = state => state.contacts.items;
+
+export const selectContactsCount = createSelector([selectContacts], contacts => {
+  console.log('Calculating task count');
+
+  return contacts.reduce(
+    (count, contacts) => {
+      if (contacts) {
+        count.contacts += 1;
+      }
+      return count;
+    },
+    { contacts: 0 }
+  );
+});

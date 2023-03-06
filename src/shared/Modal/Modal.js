@@ -2,11 +2,16 @@ import { useCallback, useEffect } from "react"
 import { createPortal } from "react-dom";
 import ButtonIcon from "shared/Buttons/ButtonIcon";
 import { CgClose } from 'react-icons/cg';
+import { ContactForm } from "components/ContactForm/ContactForm";
+import { fetchAllContacts } from "redux/contacts/contactsOperations";
+
 
 
 const modalRoot = document.querySelector('#modal-root');
 
-export const Modal = ({onClick, showModal, id}) => {
+export const Modal = ({ onClick, showModal, id }) => {
+  const { contact } = fetchAllContacts(id);
+
   const closeModal = useCallback(({ code, target, currentTarget }) => {
     if (target === currentTarget || code === 'Escape') {
         onclick();
@@ -27,7 +32,8 @@ export const Modal = ({onClick, showModal, id}) => {
             onClick={onClick}
             round={true}
           />
-          {/* <EditContactForm data={data} toggleModal={onClick} /> */}
+          
+          <ContactForm contact={contact} toggleModal={onClick} />
         </div>
       </div>,
       modalRoot

@@ -50,7 +50,7 @@ const contactsSlice = createSlice({
       .addCase(fetchDeleteContact.rejected, (store, { payload }) => {
         store.isLoading = false;
         store.error = payload;
-      });
+      })
   },
 });
 
